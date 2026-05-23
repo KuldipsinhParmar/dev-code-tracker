@@ -1,0 +1,9 @@
+.vscode/**
+node_modules/**
+src/**
+tsconfig.json
+package-lock.json
+*.vsix
+.gitignore
+out/**/*.map
+preview_dashboard.html

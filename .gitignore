@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# Node
+extension/node_modules/
+
+# Compiled output
+extension/out/
+
+# Data folders
+.devCodeTracker/
+
+# Logs
+*.log
+server/landing.html

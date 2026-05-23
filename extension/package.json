@@ -1,0 +1,126 @@
+{
+  "name": "dev-code-tracker",
+  "displayName": "Dev Code Tracker",
+  "description": "Automatically track coding time per project with smart idle detection. Live status bar, streak tracking, daily goals. Saves locally always. Optional sync to your own PHP server.",
+  "version": "1.0.0",
+  "publisher": "kuldipsinhparmar",
+  "icon": "icon.png",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KuldipsinhParmar/dev-code-tracker"
+  },
+  "bugs": {
+    "url": "https://github.com/KuldipsinhParmar/dev-code-tracker/issues"
+  },
+  "homepage": "https://github.com/KuldipsinhParmar/dev-code-tracker#readme",
+  "keywords": [
+    "dev clock tracker",
+    "time tracker",
+    "coding time",
+    "productivity",
+    "developer",
+    "work log",
+    "session tracker",
+    "clock",
+    "pomodoro",
+    "hours"
+  ],
+  "galleryBanner": {
+    "color": "#0f172a",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "devCodeTracker.openReport",
+        "title": "Dev Code Tracker: Open Dashboard (Online / Local)"
+      },
+      {
+        "command": "devCodeTracker.configure",
+        "title": "Dev Code Tracker: Configure Online API"
+      },
+      {
+        "command": "devCodeTracker.syncNow",
+        "title": "Dev Code Tracker: Sync to Server Now"
+      },
+      {
+        "command": "devCodeTracker.renameProject",
+        "title": "Dev Code Tracker: Set Display Name for Project"
+      },
+      {
+        "command": "devCodeTracker.showToday",
+        "title": "Dev Code Tracker: Show Today's Summary"
+      },
+      {
+        "command": "devCodeTracker.clearData",
+        "title": "Dev Code Tracker: Clear Project Data"
+      },
+      {
+        "command": "devCodeTracker.showLocalDashboard",
+        "title": "Dev Code Tracker: Open Local Dashboard (Offline View)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "devCodeTracker.openReport",
+        "key": "ctrl+alt+d",
+        "mac": "cmd+alt+d",
+        "when": "!terminalFocus"
+      },
+      {
+        "command": "devCodeTracker.showLocalDashboard",
+        "key": "ctrl+alt+l",
+        "mac": "cmd+alt+l",
+        "when": "!terminalFocus"
+      }
+    ],
+    "configuration": {
+      "title": "Dev Code Tracker",
+      "properties": {
+        "devCodeTracker.apiUrl": {
+          "type": "string",
+          "default": "",
+          "description": "[Online] Your PHP API URL — e.g. http://yourserver.com/devCodeTracker/api.php"
+        },
+        "devCodeTracker.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "[Online] Secret key — must match api.php config"
+        },
+        "devCodeTracker.idleTimeoutMinutes": {
+          "type": "number",
+          "default": 5,
+          "minimum": 1,
+          "description": "Pause timer after N minutes of inactivity"
+        },
+        "devCodeTracker.projectDisplayNames": {
+          "type": "object",
+          "default": {},
+          "description": "Custom display names per project folder key"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.74.0",
+    "@vscode/vsce": "^3.9.1",
+    "typescript": "^5.0.0"
+  }
+}
