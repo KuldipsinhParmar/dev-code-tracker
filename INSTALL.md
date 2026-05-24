@@ -18,13 +18,26 @@ dev-code-tracker/
 
 ---
 
-## PART A — Extension Setup (Required for everyone)
+## PART A — Extension Installation
 
-### Step 1 — Install Node.js
+### Option 1 — Install from VS Code Marketplace (Recommended)
+
+1. Open your editor (VS Code, Cursor, Windsurf, VSCodium).
+2. Go to the Extensions view (`Ctrl+Shift+X` or `Cmd+Shift+X`).
+3. Search for **Dev Code Tracker** and click **Install**.
+4. Or, install directly via the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker).
+
+After installing, proceed to **Step 4 — First run** below.
+
+### Option 2 — Build from Source (Alternative)
+
+If you prefer to compile and install the extension manually:
+
+#### Step 1 — Install Node.js
 Download from https://nodejs.org — install version 18 or higher.
 Verify: open terminal and type `node -v` — should show v18 or above.
 
-### Step 2 — Build the extension
+#### Step 2 — Build the extension
 
 Open terminal, go into the extension folder:
 
@@ -54,7 +67,7 @@ vsce package --no-dependencies
 
 This creates: `dev-code-tracker-1.0.0.vsix` in the same folder.
 
-### Step 3 — Install the .vsix into VS Code or Cursor
+#### Step 3 — Install the .vsix into VS Code or Cursor
 
 **VS Code:**
 ```bash

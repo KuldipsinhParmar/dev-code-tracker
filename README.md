@@ -5,11 +5,19 @@
 <h1 align="center">Dev Code Tracker — Coding Time Tracker</h1>
 
 <p align="center">
+  <a href="https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker"><img src="https://img.shields.io/visual-studio-marketplace/v/KuldipsinhParmar.dev-code-tracker.svg?label=Marketplace&color=blue&logo=visual-studio-code" alt="Visual Studio Marketplace"/></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker"><img src="https://img.shields.io/visual-studio-marketplace/d/KuldipsinhParmar.dev-code-tracker.svg" alt="Downloads"/></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker"><img src="https://img.shields.io/visual-studio-marketplace/r/KuldipsinhParmar.dev-code-tracker.svg" alt="Rating"/></a>
+</p>
+
+<p align="center">
   Automatically tracks how much time you spend on each project in VS Code, Cursor, Windsurf, Claude Code, and VSCodium.
   <br/>
   No manual start/stop. Just open your project and work.
   <br/><br/>
   <strong>Official Website:</strong> <a href="https://devcodetracker.workshow.me/">devcodetracker.workshow.me</a>
+  &nbsp;|&nbsp;
+  <strong>VS Code Marketplace:</strong> <a href="https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker">Install Extension</a>
 </p>
 
 ---
@@ -64,13 +72,16 @@ Open the Command Palette (`Ctrl+Shift+P`) and type **Dev Code Tracker**:
 
 ## Installation
 
-### Option 1 — Install VSIX (recommended)
+### Option 1 — Install from VS Code Marketplace (Recommended)
+Search for **Dev Code Tracker** in the VS Code Extensions view (`Ctrl+Shift+X` or `Cmd+Shift+X`) and click **Install**, or get it directly from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker).
+
+### Option 2 — Install VSIX
 1. Open VS Code
 2. `Ctrl+Shift+P` → **Extensions: Install from VSIX...**
 3. Select `extension/dev-code-tracker-1.0.0.vsix`
 4. Reload VS Code
 
-### Option 2 — Build from source
+### Option 3 — Build from source
 ```bash
 cd extension
 npm install
