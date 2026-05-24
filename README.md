@@ -5,9 +5,11 @@
 <h1 align="center">Dev Code Tracker — Coding Time Tracker</h1>
 
 <p align="center">
-  Automatically tracks how much time you spend on each project in VS Code / Cursor AI.
+  Automatically tracks how much time you spend on each project in VS Code, Cursor, Windsurf, Claude Code, and VSCodium.
   <br/>
   No manual start/stop. Just open your project and work.
+  <br/><br/>
+  <strong>Official Website:</strong> <a href="https://devcodetracker.workshow.me/">devcodetracker.workshow.me</a>
 </p>
 
 ---
@@ -26,7 +28,7 @@ Close VS Code →  session saved automatically
 - **Session ends** after 5 minutes of idle (no window focus)
 - **Timer resumes** when you come back to the window
 - **Multi-Root Workspaces** supported automatically (tracks the folder of the currently active file)
-- Works perfectly with **Cursor AI** and **Claude** — no file editing needed
+- Works perfectly with **VS Code**, **Cursor AI**, **Windsurf**, **Claude Code**, and **VSCodium** — no file editing needed
 - **Stunning Offline Dashboard**: The offline local dashboard uses a beautiful, fully interactive SPA interface directly inside VS Code!
 
 ---

@@ -8,12 +8,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/KuldipsinhParmar/dev-code-tracker"
+    "url": "https://github.com/KuldipsinhParmar/dev-clock-tracker"
   },
   "bugs": {
-    "url": "https://github.com/KuldipsinhParmar/dev-code-tracker/issues"
+    "url": "https://github.com/KuldipsinhParmar/dev-clock-tracker/issues"
   },
-  "homepage": "https://github.com/KuldipsinhParmar/dev-code-tracker#readme",
+  "homepage": "https://devcodetracker.workshow.me/",
   "keywords": [
     "dev clock tracker",
     "time tracker",

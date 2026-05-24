@@ -4,7 +4,7 @@
 
 ```
 dev-code-tracker/
-├── extension/                ← Install this as VS Code / Cursor extension
+├── extension/                ← Install this as VS Code / Cursor / Windsurf / VSCodium extension
 │   ├── src/
 │   │   └── extension.ts      ← Main extension code
 │   ├── package.json
@@ -67,14 +67,14 @@ cursor --install-extension dev-code-tracker-1.0.0.vsix
 ```
 
 **Or manually (both editors):**
-- Open VS Code / Cursor
+- Open your editor (VS Code, Cursor, Windsurf, VSCodium)
 - Press `Ctrl+Shift+P`
 - Type: `Extensions: Install from VSIX`
 - Select the `dev-code-tracker-1.0.0.vsix` file
 
 ### Step 4 — First run
 
-Restart VS Code / Cursor. Open any project folder.
+Restart your editor (VS Code, Cursor, Windsurf, VSCodium). Open any project folder.
 
 A welcome popup appears:
 - Choose **Offline (local JSON)** → starts immediately, no setup needed
@@ -149,7 +149,7 @@ If you see that — the API is working ✅
 
 ### Step 9 — Configure the extension for Online mode
 
-In VS Code / Cursor press `Ctrl+Shift+P` and run:
+In your editor (VS Code, Cursor, Windsurf, VSCodium, etc.) press `Ctrl+Shift+P` and run:
 **`Dev Code Tracker: Configure Online API`**
 
 It asks 3 questions:
@@ -163,7 +163,7 @@ Done! Extension automatically switches to Online mode.
 
 ## PART C — Daily Usage
 
-### The status bar (bottom of VS Code / Cursor)
+### The status bar (bottom of your editor)
 
 ```
 ⏱ Dev Code Tracker - 12m     $(database) Offline
