@@ -13,3 +13,5 @@ extension/out/
 # Logs
 *.log
 server/landing.html
+
+WORDPRESS-PLUGIN-PLAN.md
