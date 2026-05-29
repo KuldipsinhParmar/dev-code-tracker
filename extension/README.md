@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./icon.png" width="100" alt="Dev Code Tracker Icon"/>
+  <img src="https://raw.githubusercontent.com/KuldipsinhParmar/dev-code-tracker/main/extension/icon.png" width="100" alt="Dev Code Tracker Icon"/>
 </p>
 
 <h1 align="center">Dev Code Tracker</h1>
@@ -19,7 +19,7 @@
 ---
 
 <p align="center">
-  <img src="./assets/demo.gif" alt="Dev Code Tracker — live status bar and dashboard" width="700"/>
+  <img src="https://raw.githubusercontent.com/KuldipsinhParmar/dev-code-tracker/main/extension/assets/demo.gif" alt="Dev Code Tracker — live status bar and dashboard" width="700"/>
 </p>
 
 ---

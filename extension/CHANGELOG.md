@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.1.1] — 2026-05-29
+- Fixed demo GIF and icon not displaying on VS Code Marketplace (replaced relative paths with absolute GitHub raw URLs)
+
 ## [1.1.0] — 2026-05-29
 - Improved Marketplace README with demo GIF slot, "Why Dev Code Tracker?" comparison, and cleaner layout
 - Added review prompt — appears after session milestones (5, 15, 30) with one-click link to Marketplace rating page
