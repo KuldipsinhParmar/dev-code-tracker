@@ -411,6 +411,32 @@ function localSave(s: TimeSession, projectPath: string) {
     try { fs.writeFileSync(path.join(dir, DATA_FILE), JSON.stringify(data, null, 2), 'utf8'); }
     catch (e: any) { console.error('Dev Code Tracker write error:', e.message); }
   }
+
+  maybePromptReview();
+}
+
+const REVIEW_MILESTONES = new Set([5, 15, 30]);
+const MARKETPLACE_REVIEW_URL = 'https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker&ssr=false#review-details';
+
+function maybePromptReview() {
+  if (ctx.globalState.get<boolean>('reviewDone')) return;
+
+  const count = (ctx.globalState.get<number>('sessionsLogged') ?? 0) + 1;
+  ctx.globalState.update('sessionsLogged', count);
+
+  if (!REVIEW_MILESTONES.has(count)) return;
+
+  vscode.window.showInformationMessage(
+    'You\'ve been coding with Dev Code Tracker — enjoying it? A quick rating helps others find it.',
+    'Rate it ⭐', 'Not Now', 'Never'
+  ).then(choice => {
+    if (choice === 'Rate it ⭐') {
+      ctx.globalState.update('reviewDone', true);
+      vscode.env.openExternal(vscode.Uri.parse(MARKETPLACE_REVIEW_URL));
+    } else if (choice === 'Never') {
+      ctx.globalState.update('reviewDone', true);
+    }
+  });
 }
 
 function isOnlineConfigured(): boolean {

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.0] — 2026-05-29
+- Improved Marketplace README with demo GIF slot, "Why Dev Code Tracker?" comparison, and cleaner layout
+- Added review prompt — appears after session milestones (5, 15, 30) with one-click link to Marketplace rating page
+- Expanded search keywords for better Marketplace discoverability
+- Updated extension description to lead with privacy and zero-config angle
+
 ## [1.0.0] — 2026-05-23
 - 🎉 **Initial Release of Dev Code Tracker**
 - Automatically tracks coding time per project with zero configuration

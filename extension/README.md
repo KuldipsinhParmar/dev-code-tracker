@@ -1,9 +1,40 @@
-# Dev Code Tracker — Smart Coding Time Tracker
+<p align="center">
+  <img src="./icon.png" width="100" alt="Dev Code Tracker Icon"/>
+</p>
 
-Automatically tracks how much time you spend on each project in VS Code, Cursor, Windsurf, Claude Code, and VSCodium.
-**No manual start/stop.** Just open your project and work.
+<h1 align="center">Dev Code Tracker</h1>
 
-**Official Website:** [devcodetracker.workshow.me](https://devcodetracker.workshow.me/)
+<p align="center">
+  <strong>Know exactly how long you code. Zero setup. Zero cloud. Zero accounts.</strong>
+</p>
+
+<p align="center">
+  <a href="https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker"><img src="https://img.shields.io/visual-studio-marketplace/v/KuldipsinhParmar.dev-code-tracker.svg?label=Marketplace&color=blue&logo=visual-studio-code" alt="Marketplace"/></a>
+  &nbsp;
+  <a href="https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker"><img src="https://img.shields.io/visual-studio-marketplace/d/KuldipsinhParmar.dev-code-tracker.svg" alt="Downloads"/></a>
+  &nbsp;
+  <a href="https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker"><img src="https://img.shields.io/visual-studio-marketplace/r/KuldipsinhParmar.dev-code-tracker.svg" alt="Rating"/></a>
+</p>
+
+---
+
+<p align="center">
+  <img src="./assets/demo.gif" alt="Dev Code Tracker — live status bar and dashboard" width="700"/>
+</p>
+
+---
+
+## Why Dev Code Tracker?
+
+Most time trackers require an account, send your data to the cloud, or charge a monthly fee. Dev Code Tracker keeps everything local — your data never leaves your machine unless you choose to sync it.
+
+| Feature | Dev Code Tracker | Cloud-Based Trackers |
+|---|---|---|
+| Account required | **No** | Yes |
+| Data stays on your machine | **Always** | No |
+| Works fully offline | **Yes** | Partial |
+| Cost | **Free** | Paid plans |
+| Self-hosted sync option | **Yes** | No |
 
 ---
 
@@ -11,17 +42,17 @@ Automatically tracks how much time you spend on each project in VS Code, Cursor,
 
 ```
 Open project  →  timer starts  →  ⏱ Dev Code Tracker - 0s
-Working...    →  ⏱ Dev Code Tracker - 1h 23m 45s
-Idle 5 min    →  session saved  →  ⏱ Dev Code Tracker - 1h 23m
-Come back     →  new session starts
+Working...    →  ⏱ Dev Code Tracker - 1h 23m 45s  (counts every second)
+Idle 5 min    →  session saved  →  ⏱ Dev Code Tracker - 1h 23m  (static total)
+Come back     →  new session starts  →  ⏱ Dev Code Tracker - 0s
 Close VS Code →  session saved automatically
 ```
 
-- **Session starts** when you open a project folder
+- **Session starts** when you open a project folder — no clicks needed
 - **Session ends** after 5 minutes of idle (configurable)
-- **Multi-Root Workspaces** supported automatically (tracks the folder of the currently active file)
-- Works perfectly with **VS Code**, **Cursor**, **Windsurf**, **Claude Code**, and **VSCodium** — no file editing needed
-- **Stunning Offline Dashboard**: The offline local dashboard uses a beautiful, fully interactive SPA interface directly inside VS Code!
+- **Multi-Root Workspaces** supported — tracks the folder of the currently active file
+- Works with **VS Code**, **Cursor**, **Windsurf**, **Claude Code**, and **VSCodium**
+- Click the status bar timer to open your dashboard instantly
 
 ---
 
@@ -29,12 +60,21 @@ Close VS Code →  session saved automatically
 
 | State | Display |
 |---|---|
-| Active | `⏱ Dev Code Tracker - 1h 23m 45s` — live counter |
-| Idle | `⏱ Dev Code Tracker - 2h 15m` — static total |
-| Online mode | `☁ API connected` |
+| Active (coding) | `⏱ Dev Code Tracker - 1h 23m 45s` — live counter |
+| Idle / between sessions | `⏱ Dev Code Tracker - 2h 15m` — static today total |
+| Online sync active | `☁ API connected` |
 | Local only | `⊟ Local only` |
 
-Click the timer to open your dashboard.
+---
+
+## Dashboard
+
+Open the **offline local dashboard** directly inside VS Code — no browser needed.
+
+- Bar charts by day and project
+- Per-session breakdown with start/end times
+- Today's total at a glance
+- Fully interactive, works with no internet
 
 ---
 
@@ -42,21 +82,21 @@ Click the timer to open your dashboard.
 
 Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) and type **Dev Code Tracker**:
 
-| Command | Description | Shortcut |
-|---|---|---|
-| `Dev Code Tracker: Open Dashboard (Online / Local)` | Choose between online web dashboard or local offline view | `Cmd+Alt+D` |
-| `Dev Code Tracker: Open Local Dashboard (Offline View)` | Directly open the local offline webview | `Cmd+Alt+L` |
-| `Dev Code Tracker: Show Today's Summary` | Quick today summary in a markdown file | — |
-| `Dev Code Tracker: Set Display Name for Project` | Rename a project for display | — |
-| `Dev Code Tracker: Configure Online API` | Set up sync to your PHP server | — |
-| `Dev Code Tracker: Sync to Server Now` | Manually push sessions to server | — |
-| `Dev Code Tracker: Clear Project Data` | Delete all local data for current project | — |
+| Command | Shortcut |
+|---|---|
+| Open Dashboard (Online / Local) | `Cmd+Alt+D` / `Ctrl+Alt+D` |
+| Open Local Dashboard (Offline View) | `Cmd+Alt+L` / `Ctrl+Alt+L` |
+| Show Today's Summary | — |
+| Set Display Name for Project | — |
+| Configure Online API | — |
+| Sync to Server Now | — |
+| Clear Project Data | — |
 
 ---
 
 ## Local Data
 
-Sessions are saved locally at:
+Sessions are saved locally — no account, no cloud:
 
 ```
 your-project/
@@ -64,21 +104,23 @@ your-project/
     sessions.json
 ```
 
-Add `.devCodeTracker/` to your `.gitignore` to keep it private. Data is yours — no cloud, no accounts required.
+Add `.devCodeTracker/` to your `.gitignore` to keep session data private.
+
+Each session stores: `project`, `start_time`, `end_time`, `duration_seconds`, `date`
 
 ---
 
 ## Online Sync (Optional)
 
-If you have a PHP + MySQL server:
+If you want to view history across machines or share with a team, you can self-host a PHP + MySQL backend:
 
-1. Upload the contents of the `server/` directory to your server
-2. Run `server/setup.sql` to create the database tables
-3. Edit `api.php` — set your DB credentials, API key, and your local `timezone_offset` (e.g. `330` for IST, `-300` for EST).
+1. Upload `server/` directory contents (`api.php`, `dashboard.html`) to your server
+2. Run `server/setup.sql` to create the tables
+3. Edit `api.php` — set DB credentials, API key, and `timezone_offset` (e.g. `330` for IST, `-300` for EST)
 4. In VS Code: `Ctrl+Shift+P` → **Dev Code Tracker: Configure Online API**
 5. Enter your `api.php` URL and secret key
 
-Sessions sync automatically when a session ends.
+Sessions sync automatically every 5 minutes.
 
 ---
 
@@ -86,11 +128,23 @@ Sessions sync automatically when a session ends.
 
 | Setting | Default | Description |
 |---|---|---|
-| `devCodeTracker.idleTimeoutMinutes` | `5` | End session after N minutes of inactivity |
-| `devCodeTracker.apiUrl` | — | Your PHP API endpoint URL |
+| `devCodeTracker.idleTimeoutMinutes` | `5` | Pause timer after N minutes of inactivity |
+| `devCodeTracker.syncIntervalMinutes` | `5` | Auto-sync interval (online mode) |
+| `devCodeTracker.apiUrl` | — | Your PHP API endpoint |
 | `devCodeTracker.apiKey` | — | Your API secret key |
-| `devCodeTracker.projectDisplayNames` | `{}` | Custom display names per project |
 
 ---
 
+## Enjoying Dev Code Tracker?
+
+A rating on the Marketplace takes 30 seconds and helps other developers find this extension.
+
+[Leave a review on the VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker&ssr=false#review-details)
+
+Found a bug or have an idea? [Open an issue on GitHub](https://github.com/KuldipsinhParmar/dev-code-tracker/issues) — all feedback is welcome.
+
+---
+
+**Official Website:** [devcodetracker.workshow.me](https://devcodetracker.workshow.me/)
+&nbsp;|&nbsp;
 **Built by Kuldipsinh Parmar**
