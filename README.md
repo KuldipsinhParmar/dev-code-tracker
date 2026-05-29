@@ -1,56 +1,96 @@
 <p align="center">
-  <img src="extension/icon.png" width="120" alt="Dev Code Tracker Icon"/>
+  <img src="extension/icon.png" width="100" alt="Dev Code Tracker Icon"/>
 </p>
 
-<h1 align="center">Dev Code Tracker — Coding Time Tracker</h1>
+<h1 align="center">Dev Code Tracker</h1>
 
 <p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker"><img src="https://img.shields.io/visual-studio-marketplace/v/KuldipsinhParmar.dev-code-tracker.svg?label=Marketplace&color=blue&logo=visual-studio-code" alt="Visual Studio Marketplace"/></a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker"><img src="https://img.shields.io/visual-studio-marketplace/d/KuldipsinhParmar.dev-code-tracker.svg" alt="Downloads"/></a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker"><img src="https://img.shields.io/visual-studio-marketplace/r/KuldipsinhParmar.dev-code-tracker.svg" alt="Rating"/></a>
+  <strong>Know exactly how long you code. Zero setup. Zero cloud. Zero accounts.</strong>
 </p>
 
 <p align="center">
-  Automatically tracks how much time you spend on each project in VS Code, Cursor, Windsurf, Claude Code, and VSCodium.
-  <br/>
-  No manual start/stop. Just open your project and work.
-  <br/><br/>
-  <strong>Official Website:</strong> <a href="https://devcodetracker.workshow.me/">devcodetracker.workshow.me</a>
-  &nbsp;|&nbsp;
-  <strong>VS Code Marketplace:</strong> <a href="https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker">Install Extension</a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker"><img src="https://img.shields.io/visual-studio-marketplace/v/KuldipsinhParmar.dev-code-tracker.svg?label=VS%20Code%20Marketplace&color=blue&logo=visual-studio-code" alt="Marketplace"/></a>
+  &nbsp;
+  <a href="https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker"><img src="https://img.shields.io/visual-studio-marketplace/d/KuldipsinhParmar.dev-code-tracker.svg?label=Installs" alt="Installs"/></a>
+  &nbsp;
+  <a href="https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker"><img src="https://img.shields.io/visual-studio-marketplace/r/KuldipsinhParmar.dev-code-tracker.svg?label=Rating" alt="Rating"/></a>
+  &nbsp;
+  <a href="https://github.com/KuldipsinhParmar/dev-code-tracker/stargazers"><img src="https://img.shields.io/github/stars/KuldipsinhParmar/dev-code-tracker?style=flat&color=yellow" alt="Stars"/></a>
+  &nbsp;
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="MIT License"/></a>
 </p>
+
+<p align="center">
+  <a href="https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker">Install from VS Code Marketplace</a>
+  &nbsp;·&nbsp;
+  <a href="https://devcodetracker.workshow.me/">Official Website</a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/KuldipsinhParmar/dev-code-tracker/issues">Report a Bug</a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/KuldipsinhParmar/dev-code-tracker/issues">Request a Feature</a>
+</p>
+
+---
+
+<p align="center">
+  <img src="extension/assets/demo.gif" alt="Dev Code Tracker — live status bar and dashboard demo" width="700"/>
+</p>
+
+---
+
+## What It Does
+
+Dev Code Tracker automatically logs how long you spend on each project. Open a folder — the timer starts. Go idle — the session saves. Come back — a new session begins. No clicks, no config, no account.
+
+Your data lives in a `.devCodeTracker/sessions.json` file inside your project. It never leaves your machine unless you explicitly set up optional self-hosted sync.
+
+---
+
+## Why Dev Code Tracker?
+
+| Feature | Dev Code Tracker | Cloud-Based Trackers |
+|---|---|---|
+| Account required | **No** | Yes |
+| Data stays on your machine | **Always** | No |
+| Works fully offline | **Yes** | Partial |
+| Cost | **Free** | Paid plans |
+| Self-hosted sync | **Optional** | No |
 
 ---
 
 ## How It Works
 
 ```
-Open project  →  timer starts  →  ⏱ Dev Code Tracker - 0s
-Working...    →  ⏱ Dev Code Tracker - 1h 23m 45s  (counts every second)
-Idle 5 min    →  session saved  →  ⏱ Dev Code Tracker - 1h 23m  (static total)
-Come back     →  new session starts  →  ⏱ Dev Code Tracker - 0s
-Close VS Code →  session saved automatically
+Open project  →  timer starts         →  ⏱ Dev Code Tracker - 0s
+Coding...     →  timer counts live    →  ⏱ Dev Code Tracker - 1h 23m 45s
+Idle 5 min    →  session auto-saves   →  ⏱ Dev Code Tracker - 1h 23m
+Come back     →  new session starts   →  ⏱ Dev Code Tracker - 0s
+Close editor  →  session auto-saves
 ```
 
-- **Session starts** when you open a project folder
-- **Session ends** after 5 minutes of idle (no window focus)
-- **Timer resumes** when you come back to the window
-- **Multi-Root Workspaces** supported automatically (tracks the folder of the currently active file)
-- Works perfectly with **VS Code**, **Cursor AI**, **Windsurf**, **Claude Code**, and **VSCodium** — no file editing needed
-- **Stunning Offline Dashboard**: The offline local dashboard uses a beautiful, fully interactive SPA interface directly inside VS Code!
+- Works with **VS Code**, **Cursor**, **Windsurf**, **Claude Code**, and **VSCodium**
+- **Multi-Root Workspaces** — tracks the folder of the currently active file
+- Click the status bar timer to open the dashboard
 
 ---
 
-## Status Bar
+## Installation
 
-| State | Display |
-|---|---|
-| Active (working) | `⏱ Dev Code Tracker - 1h 23m 45s` — counts every second |
-| Idle (no session) | `⏱ Dev Code Tracker - 2h 15m` — static today total |
-| API connected | `$(cloud-upload) API connected` |
-| Local only | `$(database) Local only` |
+Search **Dev Code Tracker** in the VS Code Extensions panel (`Ctrl+Shift+X`) and click **Install**.
 
-Click the timer to open your report.
+Or install directly from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker).
+
+---
+
+## Dashboard
+
+Open the **local offline dashboard** inside VS Code — no browser or internet needed.
+
+- Bar charts by day and by project
+- Per-session breakdown with start/end times
+- Today's total at a glance
+
+**Shortcut:** `Cmd+Alt+L` (Mac) / `Ctrl+Alt+L` (Windows/Linux)
 
 ---
 
@@ -58,65 +98,15 @@ Click the timer to open your report.
 
 Open the Command Palette (`Ctrl+Shift+P`) and type **Dev Code Tracker**:
 
-| Command | Description | Shortcut |
-|---|---|---|
-| `Dev Code Tracker: Open Dashboard (Online / Local)` | Choose between online web dashboard or local offline view | `Cmd+Alt+D` |
-| `Dev Code Tracker: Open Local Dashboard (Offline View)` | Directly open the local offline webview | `Cmd+Alt+L` |
-| `Dev Code Tracker: Show Today's Summary` | Quick today summary | — |
-| `Dev Code Tracker: Set Display Name for Project` | Rename a project for display | — |
-| `Dev Code Tracker: Configure Online API` | Set up sync to your PHP server | — |
-| `Dev Code Tracker: Sync to Server Now` | Manually push sessions | — |
-| `Dev Code Tracker: Clear Project Data` | Delete all local data for current project | — |
-
----
-
-## Installation
-
-### Option 1 — Install from VS Code Marketplace (Recommended)
-Search for **Dev Code Tracker** in the VS Code Extensions view (`Ctrl+Shift+X` or `Cmd+Shift+X`) and click **Install**, or get it directly from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker).
-
-### Option 2 — Install VSIX
-1. Open VS Code
-2. `Ctrl+Shift+P` → **Extensions: Install from VSIX...**
-3. Select `extension/dev-code-tracker-1.0.0.vsix`
-4. Reload VS Code
-
-### Option 3 — Build from source
-```bash
-cd extension
-npm install
-npm run compile
-```
-Then press `F5` in VS Code to launch in development mode.
-
----
-
-## Local Data
-
-Each project saves sessions to:
-```
-your-project/
-  .devCodeTracker/
-    sessions.json
-```
-
-Add `.devCodeTracker/` to your `.gitignore` to keep it private.
-
-Each session stores: `project`, `display_name`, `start_time`, `end_time`, `duration_seconds`, `date`
-
----
-
-## Online Sync (Optional)
-
-If you have a PHP + MySQL server:
-
-1. Upload the contents of the `server/` directory (api.php, dashboard.html, landing.html) to your server
-2. Run `server/setup.sql` to create the database tables
-3. Edit `api.php` — set your DB credentials, API key, and your local `timezone_offset` (e.g. `330` for IST, `-300` for EST).
-4. In VS Code: `Ctrl+Shift+P` → **Dev Code Tracker: Configure Online API**
-5. Enter your `api.php` URL and secret key
-
-Sessions sync automatically every 5 minutes.
+| Command | Shortcut |
+|---|---|
+| Open Dashboard (Online / Local) | `Cmd+Alt+D` |
+| Open Local Dashboard (Offline View) | `Cmd+Alt+L` |
+| Show Today's Summary | — |
+| Set Display Name for Project | — |
+| Configure Online API | — |
+| Sync to Server Now | — |
+| Clear Project Data | — |
 
 ---
 
@@ -124,11 +114,43 @@ Sessions sync automatically every 5 minutes.
 
 | Setting | Default | Description |
 |---|---|---|
-| `devCodeTracker.idleTimeoutMinutes` | `5` | End session after N minutes of no activity |
-| `devCodeTracker.syncIntervalMinutes` | `5` | Auto-sync interval in minutes (online mode) |
-| `devCodeTracker.apiUrl` | — | Your PHP API endpoint URL |
+| `devCodeTracker.idleTimeoutMinutes` | `5` | Pause timer after N minutes of inactivity |
+| `devCodeTracker.syncIntervalMinutes` | `5` | Auto-sync interval (online mode) |
+| `devCodeTracker.apiUrl` | — | Your PHP API endpoint |
 | `devCodeTracker.apiKey` | — | Your API secret key |
 
 ---
 
-**Built by Kuldipsinh Parmar**
+## Online Sync (Optional)
+
+Want history across machines or a team view? Self-host the included PHP + MySQL backend:
+
+1. Upload the `server/` directory to your server
+2. Run `server/setup.sql` to create the tables
+3. Edit `api.php` — set DB credentials, API key, and `timezone_offset` (e.g. `330` for IST, `-300` for EST)
+4. In VS Code: `Ctrl+Shift+P` → **Dev Code Tracker: Configure Online API**
+5. Enter your `api.php` URL and secret key
+
+Sessions sync automatically every 5 minutes.
+
+---
+
+## Enjoying Dev Code Tracker?
+
+A rating takes 30 seconds and helps other developers find this extension.
+
+[Leave a review on the VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=KuldipsinhParmar.dev-code-tracker&ssr=false#review-details)
+
+## Contributing
+
+Found a bug or have a feature idea? [Open an issue](https://github.com/KuldipsinhParmar/dev-code-tracker/issues) — all feedback is welcome.
+
+If Dev Code Tracker saves you time, consider giving the repo a **star** — it helps others find it.
+
+---
+
+## License
+
+MIT — see [LICENSE](extension/LICENSE)
+
+**Built by [Kuldipsinh Parmar](https://github.com/KuldipsinhParmar)**

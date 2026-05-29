@@ -1,8 +1,8 @@
 {
   "name": "dev-code-tracker",
   "displayName": "Dev Code Tracker",
-  "description": "Automatically track coding time per project with smart idle detection. Live status bar, streak tracking, daily goals. Saves locally always. Optional sync to your own PHP server.",
-  "version": "1.0.0",
+  "description": "Track coding time per project — no account, no cloud, no config. Live status bar timer, offline dashboard, smart idle detection. Works with VS Code, Cursor, Windsurf, and Claude Code.",
+  "version": "1.1.0",
   "publisher": "kuldipsinhparmar",
   "icon": "icon.png",
   "license": "MIT",
@@ -15,16 +15,21 @@
   },
   "homepage": "https://devcodetracker.workshow.me/",
   "keywords": [
-    "dev code tracker",
     "time tracker",
     "coding time",
     "productivity",
     "developer",
     "work log",
     "session tracker",
-    "clock",
-    "pomodoro",
-    "hours"
+    "project timer",
+    "code time",
+    "work hours",
+    "activity tracker",
+    "developer productivity",
+    "coding stats",
+    "focus timer",
+    "offline tracker",
+    "local time tracker"
   ],
   "galleryBanner": {
     "color": "#0f172a",
