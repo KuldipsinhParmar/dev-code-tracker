@@ -808,7 +808,7 @@ function buildOfflineHTML(data: LocalData, iconUri: string): string {
     last30.push(new Date(Date.now() + 330*60_000 - i*86_400_000).toISOString().slice(0,10));
   }
 
-  const t = (iso: string) => new Date(iso).toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata', hour:'2-digit', minute:'2-digit'});
+  const t = (iso: string) => { const d = new Date(new Date(iso).getTime() + 330 * 60_000); return String(d.getUTCHours()).padStart(2, '0') + ':' + String(d.getUTCMinutes()).padStart(2, '0'); };
 
   const todaySessions = sessions.filter(s => s.date === today);
   const todaySec = todaySessions.reduce((a, s) => a + s.duration_seconds, 0);

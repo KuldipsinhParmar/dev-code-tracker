@@ -730,7 +730,7 @@ function buildOfflineHTML(data, iconUri) {
     for (let i = 29; i >= 0; i--) {
         last30.push(new Date(Date.now() + 330 * 60000 - i * 86400000).toISOString().slice(0, 10));
     }
-    const t = (iso) => new Date(iso).toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' });
+    const t = (iso) => { const d = new Date(new Date(iso).getTime() + 330 * 60000); return String(d.getUTCHours()).padStart(2, '0') + ':' + String(d.getUTCMinutes()).padStart(2, '0'); };
     const todaySessions = sessions.filter(s => s.date === today);
     const todaySec = todaySessions.reduce((a, s) => a + s.duration_seconds, 0);
     const weekSessions = sessions.filter(s => s.date >= weekStart && s.date <= today);
