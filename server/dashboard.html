@@ -180,8 +180,9 @@ html[data-theme="light"] .icon-btn .ti-sun{display:block}
 ───────────────────────────────────── */
 .tabs{
   display:flex;gap:2px;border-bottom:1px solid var(--line);margin:24px 0 0;
-  overflow-x:auto;
+  overflow-x:auto;scrollbar-width:none;
 }
+.tabs::-webkit-scrollbar{display:none}
 .tab{
   position:relative;padding:12px 18px;font-size:13.5px;font-weight:500;
   color:var(--tx-2);cursor:pointer;background:none;border:none;
@@ -1136,22 +1137,10 @@ function renderBarChart() {
   function getDateRange() {
     const today = new Date(t + 'T12:00:00');
     const dates = [];
-    if (range === 7) {
-      const dow = today.getDay();
-      const daysFromMon = (dow === 0) ? 6 : dow - 1;
-      const mon = new Date(today);
-      mon.setDate(today.getDate() - daysFromMon);
-      for (let i = 0; i < 7; i++) {
-        const d = new Date(mon);
-        d.setDate(mon.getDate() + i);
-        dates.push(d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'));
-      }
-    } else {
-      for (let i = range - 1; i >= 0; i--) {
-        const d = new Date(today);
-        d.setDate(today.getDate() - i);
-        dates.push(d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'));
-      }
+    for (let i = range - 1; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(today.getDate() - i);
+      dates.push(d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'));
     }
     return dates;
   }
