@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.3] — 2026-06-01
+- Fixed scrollbar appearing on the navigation tab bar
+- Fixed Daily Activity Panel showing current calendar week instead of last 7 rolling days when "7d" is selected
+
 ## [1.1.1] — 2026-05-29
 - Fixed demo GIF and icon not displaying on VS Code Marketplace (replaced relative paths with absolute GitHub raw URLs)
 
