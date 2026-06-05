@@ -660,7 +660,8 @@ async function cmdShowToday() {
   const today = isoDateIST();
   const [ty, tm, td] = today.split('-');
   const todayDisplay = `${td}-${tm}-${ty}`;
-  const sessions: TimeSession[] = (localRead(proj.path)?.sessions ?? []).filter(s => s.date === today);
+  const sessions: TimeSession[] = readLocalWithLive(proj.path, proj.key, proj.name)
+    .sessions.filter(s => s.date === today);
 
   const total = sessions.reduce((a, s) => a + s.duration_seconds, 0);
   const lines = [
