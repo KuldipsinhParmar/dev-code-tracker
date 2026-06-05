@@ -223,9 +223,7 @@ try {
             ]);
 
             $key = "$date|$proj";
-            if (!isset($agg[$key])) $agg[$key] = ['date' => $date, 'proj' => $proj, 'dname' => $dname, 'sec' => 0, 'cnt' => 0];
-            $agg[$key]['sec'] += $dur;
-            $agg[$key]['cnt']++;
+            if (!isset($agg[$key])) $agg[$key] = ['date' => $date, 'proj' => $proj, 'dname' => $dname];
 
             $stmtProj->execute([':proj' => $proj, ':dname' => $dname]);
             $inserted++;

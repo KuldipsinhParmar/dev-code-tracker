@@ -369,10 +369,6 @@ function tick() {
     todayBaseline = 0;
   }
 
-  if (activeSession && vscode.window.state.focused) {
-    activeSession.last_activity = new Date();
-  }
-
   updateStatusBar();
   idleTickCount = (idleTickCount + 1) % 15;
   if (idleTickCount === 0 && activeSession && Date.now() - activeSession.last_activity.getTime() > idleMs()) {
@@ -803,6 +799,22 @@ function buildOfflineHTML(data: LocalData, iconUri: string): string {
   let streak = 0;
   { const c = new Date(todayD); while (byDate[c.toISOString().slice(0,10)]) { streak++; c.setDate(c.getDate()-1); } }
 
+  let longestStreak = 0;
+  {
+    const allDates = Object.keys(byDate).filter(d => byDate[d] > 0).sort();
+    if (allDates.length > 0) {
+      let run = 1;
+      longestStreak = 1;
+      for (let i = 1; i < allDates.length; i++) {
+        const prev = new Date(allDates[i - 1] + 'T12:00:00');
+        const curr = new Date(allDates[i] + 'T12:00:00');
+        const diff = Math.round((curr.getTime() - prev.getTime()) / 86_400_000);
+        if (diff === 1) { run++; if (run > longestStreak) longestStreak = run; }
+        else run = 1;
+      }
+    }
+  }
+
   const last30: string[] = [];
   for (let i = 29; i >= 0; i--) {
     last30.push(new Date(Date.now() + 330*60_000 - i*86_400_000).toISOString().slice(0,10));
@@ -819,7 +831,7 @@ function buildOfflineHTML(data: LocalData, iconUri: string): string {
   const D = {
     success: true,
     istToday: today,
-    streak: { current: streak, longest: streak },
+    streak: { current: streak, longest: longestStreak },
     today: todaySec > 0 ? [{
       project: data.project,
       display_name: data.display_name,
