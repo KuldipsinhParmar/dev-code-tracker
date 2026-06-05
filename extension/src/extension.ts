@@ -224,7 +224,7 @@ function updateStatusBar() {
   }
   const sessionSec = Math.floor((activeSession.last_activity.getTime() - activeSession.start_time.getTime()) / 1000);
   const todaySec   = todayBaseline + sessionSec;
-  statusBar.text    = `$(clock) Dev Code Tracker - ${fmtLive(todaySec)}`;
+  statusBar.text    = `$(clock) Dev Code Tracker - ${fmtLive(sessionSec)} | $(calendar) ${fmtDur(todaySec)}`;
   statusBar.tooltip =
     `Project    : ${activeSession.display_name}\n` +
     `Session    : ${fmtLive(sessionSec)}\n` +
