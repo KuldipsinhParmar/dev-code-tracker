@@ -222,7 +222,7 @@ function updateStatusBar() {
       : 'Dev Code Tracker — click to open report';
     return;
   }
-  const sessionSec = Math.floor((Date.now() - activeSession.start_time.getTime()) / 1000);
+  const sessionSec = Math.floor((activeSession.last_activity.getTime() - activeSession.start_time.getTime()) / 1000);
   const todaySec   = todayBaseline + sessionSec;
   statusBar.text    = `$(clock) Dev Code Tracker - ${fmtLive(todaySec)}`;
   statusBar.tooltip =
@@ -619,7 +619,7 @@ function readLocalWithLive(projPath: string, projKey: string, projName: string):
     sessions: [], last_updated: new Date().toISOString(),
   };
   if (activeSession && activeSession.project_path === projPath) {
-    const now = new Date();
+    const now = activeSession.last_activity;
     const dur = Math.floor((now.getTime() - activeSession.start_time.getTime()) / 1000);
     if (dur >= 60) {
       data = { ...data, sessions: [...data.sessions] };
