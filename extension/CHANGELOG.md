@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.5] — 2026-06-06
+- Fixed session timer to count elapsed time from session start using `Date.now()` instead of `last_activity`, so the live clock never stalls
+- Session `last_activity` now updates every tick while the VS Code window is focused, preventing false idle timeouts during active coding
+
 ## [1.1.4] — 2026-06-06
 - Status bar now shows both live session time and today's total coding time simultaneously
 - Fixed status bar and dashboard preview to stay in sync with saved session duration

@@ -110,17 +110,60 @@ Each session stores: `project`, `start_time`, `end_time`, `duration_seconds`, `d
 
 ---
 
-## Online Sync (Optional)
+## Setup Guide
 
-If you want to view history across machines or share with a team, you can self-host a PHP + MySQL backend:
+### Local Mode (default — no setup needed)
 
-1. Upload `server/` directory contents (`api.php`, `dashboard.html`) to your server
-2. Run `server/setup.sql` to create the tables
-3. Edit `api.php` — set DB credentials, API key, and `timezone_offset` (e.g. `330` for IST, `-300` for EST)
-4. In VS Code: `Ctrl+Shift+P` → **Dev Code Tracker: Configure Online API**
-5. Enter your `api.php` URL and secret key
+Dev Code Tracker works out of the box with zero configuration:
 
-Sessions sync automatically every 5 minutes.
+1. Install the extension from the Marketplace
+2. Open any project folder in VS Code
+3. The status bar timer starts automatically — that's it
+
+Your sessions are saved to `.devCodeTracker/sessions.json` inside each project. Add that folder to `.gitignore` to keep your data private.
+
+---
+
+### Online Sync (Optional — self-hosted)
+
+Want your history across multiple machines or a web dashboard? Host the backend yourself on any shared PHP + MySQL server (e.g. Hostinger, cPanel, DigitalOcean).
+
+**Requirements:** PHP 7.4+, MySQL 5.7+, a web server (Apache/Nginx)
+
+**Step 1 — Upload server files**
+
+Copy these two files from the `server/` folder in the [GitHub repo](https://github.com/KuldipsinhParmar/dev-code-tracker) to your web server's public directory:
+- `api.php`
+- `dashboard.html`
+
+**Step 2 — Edit api.php**
+
+Open `api.php` and fill in the `$config` block at the top:
+
+```php
+$config = [
+    'db_host'         => 'localhost',
+    'db_name'         => 'your_database_name',
+    'db_user'         => 'your_database_user',
+    'db_password'     => 'your_database_password',
+    'api_key'         => 'your_secret_api_key',   // pick any strong random string
+    'require_auth'    => true,
+    'timezone_offset' => 330,  // minutes from UTC: 330=IST, 0=UTC, -300=EST, 60=CET
+];
+```
+
+> Tables are created automatically on the first request — no need to run a SQL file manually.
+
+**Step 3 — Connect VS Code**
+
+1. Open Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
+2. Run **Dev Code Tracker: Configure Online API**
+3. Enter your `api.php` URL (e.g. `https://yourdomain.com/tracker/api.php`)
+4. Enter the same `api_key` you set in Step 2
+
+**Step 4 — Done**
+
+The status bar shows `☁ API connected`. Sessions sync automatically every 5 minutes. Open your web dashboard at `https://yourdomain.com/tracker/dashboard.html?key=your_secret_api_key`.
 
 ---
 

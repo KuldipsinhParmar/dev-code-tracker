@@ -222,7 +222,7 @@ function updateStatusBar() {
       : 'Dev Code Tracker — click to open report';
     return;
   }
-  const sessionSec = Math.floor((activeSession.last_activity.getTime() - activeSession.start_time.getTime()) / 1000);
+  const sessionSec = Math.floor((Date.now() - activeSession.start_time.getTime()) / 1000);
   const todaySec   = todayBaseline + sessionSec;
   statusBar.text    = `$(clock) Dev Code Tracker - ${fmtLive(sessionSec)} | $(calendar) ${fmtDur(todaySec)}`;
   statusBar.tooltip =
@@ -369,6 +369,9 @@ function tick() {
     todayBaseline = 0;
   }
 
+  if (activeSession && vscode.window.state.focused) {
+    activeSession.last_activity = new Date();
+  }
   updateStatusBar();
   idleTickCount = (idleTickCount + 1) % 15;
   if (idleTickCount === 0 && activeSession && Date.now() - activeSession.last_activity.getTime() > idleMs()) {

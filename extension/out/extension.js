@@ -169,7 +169,7 @@ function updateStatusBar() {
     }
     const sessionSec = Math.floor((Date.now() - activeSession.start_time.getTime()) / 1000);
     const todaySec = todayBaseline + sessionSec;
-    statusBar.text = `$(clock) Dev Code Tracker - ${fmtLive(todaySec)}`;
+    statusBar.text = `$(clock) Dev Code Tracker - ${fmtLive(sessionSec)} | $(calendar) ${fmtDur(todaySec)}`;
     statusBar.tooltip =
         `Project    : ${activeSession.display_name}\n` +
             `Session    : ${fmtLive(sessionSec)}\n` +
@@ -563,7 +563,7 @@ function readLocalWithLive(projPath, projKey, projName) {
         sessions: [], last_updated: new Date().toISOString(),
     };
     if (activeSession && activeSession.project_path === projPath) {
-        const now = new Date();
+        const now = activeSession.last_activity;
         const dur = Math.floor((now.getTime() - activeSession.start_time.getTime()) / 1000);
         if (dur >= 60) {
             data = { ...data, sessions: [...data.sessions] };
@@ -601,7 +601,8 @@ async function cmdShowToday() {
     const today = isoDateIST();
     const [ty, tm, td] = today.split('-');
     const todayDisplay = `${td}-${tm}-${ty}`;
-    const sessions = (localRead(proj.path)?.sessions ?? []).filter(s => s.date === today);
+    const sessions = readLocalWithLive(proj.path, proj.key, proj.name)
+        .sessions.filter(s => s.date === today);
     const total = sessions.reduce((a, s) => a + s.duration_seconds, 0);
     const lines = [
         `# Dev Code Tracker — Today  (${todayDisplay})`,
@@ -726,6 +727,26 @@ function buildOfflineHTML(data, iconUri) {
             c.setDate(c.getDate() - 1);
         }
     }
+    let longestStreak = 0;
+    {
+        const allDates = Object.keys(byDate).filter(d => byDate[d] > 0).sort();
+        if (allDates.length > 0) {
+            let run = 1;
+            longestStreak = 1;
+            for (let i = 1; i < allDates.length; i++) {
+                const prev = new Date(allDates[i - 1] + 'T12:00:00');
+                const curr = new Date(allDates[i] + 'T12:00:00');
+                const diff = Math.round((curr.getTime() - prev.getTime()) / 86400000);
+                if (diff === 1) {
+                    run++;
+                    if (run > longestStreak)
+                        longestStreak = run;
+                }
+                else
+                    run = 1;
+            }
+        }
+    }
     const last30 = [];
     for (let i = 29; i >= 0; i--) {
         last30.push(new Date(Date.now() + 330 * 60000 - i * 86400000).toISOString().slice(0, 10));
@@ -738,7 +759,7 @@ function buildOfflineHTML(data, iconUri) {
     const D = {
         success: true,
         istToday: today,
-        streak: { current: streak, longest: streak },
+        streak: { current: streak, longest: longestStreak },
         today: todaySec > 0 ? [{
                 project: data.project,
                 display_name: data.display_name,

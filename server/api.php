@@ -31,12 +31,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // ══════════════════════════════════════════════════════════════
 $config = [
     'db_host'      => 'localhost',
-    'db_name'      => 'u636872366_devtracker',
-    'db_user'      => 'u636872366_devtracker',
-    'db_password'  => '#sK>OS+3H7',
-    'api_key'      => 'dt_7Xk2mP9qR4nV8wZ3cY6jL1sF5hB0eA',
+    'db_name'      => 'your_database_name',
+    'db_user'      => 'your_database_user',
+    'db_password'  => 'your_database_password',
+    'api_key'      => 'your_secret_api_key',
     'require_auth' => true,
-    'timezone_offset' => 330, // Offset from UTC in minutes (e.g. 330 for IST)
+    'timezone_offset' => 330, // Offset from UTC in minutes (e.g. 330 for IST, -300 for EST)
 ];
 // ══════════════════════════════════════════════════════════════
 
