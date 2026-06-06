@@ -12,6 +12,20 @@ extension/out/
 
 # Logs
 *.log
-server/landing.html
 
+# Deployment files (managed separately)
 WORDPRESS-PLUGIN-PLAN.md
+
+# Generated reports
+devcodetracker-seo-audit.md
+devcodetracker-seo-audit-v2.md
+
+.htaccess
+demo.mp4
+demo.webm
+landing.html
+llms.txt
+og-image.png
+README.md
+robots.txt
+sitemap.xml
