@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.4] — 2026-06-06
+- Status bar now shows both live session time and today's total coding time simultaneously
+- Fixed status bar and dashboard preview to stay in sync with saved session duration
+- Fixed `Show Today's Summary` command to include the live session in total time and session list
+- Fixed longest streak calculation in local mode and improved idle timeout accuracy
+- Cleaned up dead code in api.php
+
 ## [1.1.3] — 2026-06-01
 - Fixed scrollbar appearing on the navigation tab bar
 - Fixed Daily Activity Panel showing current calendar week instead of last 7 rolling days when "7d" is selected
