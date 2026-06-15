@@ -378,30 +378,28 @@ try {
             ok(['data' => $rows]);
         }
 
-        // raw sessions
+        // raw sessions (supports ?project=X&from=YYYY-MM-DD&to=YYYY-MM-DD&limit=N)
         elseif ($action === 'sessions') {
             $proj  = $_GET['project'] ?? null;
-            $limit = max(1, min(500, (int)($_GET['limit'] ?? 50)));
-            if ($proj) {
-                $s = $pdo->prepare("
-                    SELECT project, display_name, duration_seconds,
-                           DATE_FORMAT(DATE_ADD(start_time, INTERVAL {$tz} MINUTE),'%Y-%m-%d') AS date,
-                           DATE_FORMAT(DATE_ADD(start_time, INTERVAL {$tz} MINUTE),'%H:%i')    AS start,
-                           DATE_FORMAT(DATE_ADD(end_time,   INTERVAL {$tz} MINUTE),'%H:%i')    AS end
-                    FROM time_sessions WHERE project=:p AND duration_seconds >= 60 ORDER BY start_time DESC LIMIT :l
-                ");
-                $s->bindValue(':p', $proj);
-                $s->bindValue(':l', $limit, PDO::PARAM_INT);
-            } else {
-                $s = $pdo->prepare("
-                    SELECT project, display_name, duration_seconds,
-                           DATE_FORMAT(DATE_ADD(start_time, INTERVAL {$tz} MINUTE),'%Y-%m-%d') AS date,
-                           DATE_FORMAT(DATE_ADD(start_time, INTERVAL {$tz} MINUTE),'%H:%i')    AS start,
-                           DATE_FORMAT(DATE_ADD(end_time,   INTERVAL {$tz} MINUTE),'%H:%i')    AS end
-                    FROM time_sessions WHERE duration_seconds >= 60 ORDER BY start_time DESC LIMIT :l
-                ");
-                $s->bindValue(':l', $limit, PDO::PARAM_INT);
-            }
+            $from  = $_GET['from']    ?? null;
+            $to    = $_GET['to']      ?? null;
+            $limit = max(1, min(1000, (int)($_GET['limit'] ?? 200)));
+
+            $where  = 'WHERE duration_seconds >= 60';
+            $params = [];
+            if ($proj) { $where .= ' AND project = :p';   $params[':p']    = $proj; }
+            if ($from) { $where .= ' AND DATE(DATE_ADD(start_time, INTERVAL '.$tz.' MINUTE)) >= :from'; $params[':from'] = $from; }
+            if ($to)   { $where .= ' AND DATE(DATE_ADD(start_time, INTERVAL '.$tz.' MINUTE)) <= :to';   $params[':to']   = $to; }
+
+            $s = $pdo->prepare("
+                SELECT project, display_name, duration_seconds,
+                       DATE_FORMAT(DATE_ADD(start_time, INTERVAL {$tz} MINUTE),'%Y-%m-%d') AS date,
+                       DATE_FORMAT(DATE_ADD(start_time, INTERVAL {$tz} MINUTE),'%H:%i')    AS start,
+                       DATE_FORMAT(DATE_ADD(end_time,   INTERVAL {$tz} MINUTE),'%H:%i')    AS end
+                FROM time_sessions {$where} ORDER BY start_time DESC LIMIT :l
+            ");
+            foreach ($params as $k => $v) $s->bindValue($k, $v);
+            $s->bindValue(':l', $limit, PDO::PARAM_INT);
             $s->execute();
             ok(['data' => $s->fetchAll()]);
         } else {

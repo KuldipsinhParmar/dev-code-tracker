@@ -592,6 +592,104 @@ html[data-theme="light"] .pv-sess-table tr:hover td{background:rgba(15,20,40,.02
   .card{padding:18px}
   .card-value{font-size:32px}
 }
+
+/* ─────────────────────────────────────
+   PROJECT DETAIL PAGE
+───────────────────────────────────── */
+.pd-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.pd-title{font-size:26px;font-weight:600;color:var(--tx-0);letter-spacing:-.02em;line-height:1.1}
+.pd-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+@media(max-width:600px){.pd-stats{grid-template-columns:1fr 1fr}}
+.pd-date-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.pd-custom-dates{
+  display:none;gap:8px;align-items:center;flex-wrap:wrap;
+  margin-bottom:16px;padding:10px 14px;
+  background:var(--ink-2);border:1px solid var(--line);border-radius:10px;
+}
+.date-input{
+  background:var(--ink-3);border:1px solid var(--line);color:var(--tx-0);
+  padding:7px 10px;border-radius:9px;font-family:var(--mono);font-size:12px;
+  outline:none;transition:border-color .15s;
+}
+html[data-theme="light"] .date-input{background:#fff}
+.date-input:focus{border-color:var(--cyan)}
+
+/* ─────────────────────────────────────
+   PRINT-ONLY HEADER (hidden on screen)
+───────────────────────────────────── */
+.pd-print-hdr{display:none}
+
+/* ─────────────────────────────────────
+   PRINT / PDF EXPORT
+───────────────────────────────────── */
+@media print{
+  /* force light background regardless of theme */
+  html,body{background:#fff!important;color:#111!important}
+  /* hide everything interactive */
+  .hdr,.hdr-right,.tabs,.cfg-panel,#alertBox,.footer,
+  .pd-date-bar,.pd-custom-dates,.pd-header,
+  .proj-toolbar,.proj-pagination,.pager,.overlay,
+  body::before{display:none!important}
+  /* app shell */
+  .app{max-width:100%;padding:0 24px 24px}
+  /* only show active page */
+  .page{display:none!important}
+  .page.active{display:block!important}
+
+  /* ── print-only report header ── */
+  .pd-print-hdr{
+    display:flex!important;align-items:flex-start;justify-content:space-between;
+    padding:18px 0 14px;border-bottom:2px solid #111;margin-bottom:18px;
+  }
+  .pd-print-hdr-left{display:flex;align-items:center;gap:12px}
+  .pd-print-dot{
+    width:18px;height:18px;border-radius:50%;flex-shrink:0;
+    print-color-adjust:exact;-webkit-print-color-adjust:exact
+  }
+  .pd-print-title{font-size:22px;font-weight:700;color:#000;letter-spacing:-.02em;line-height:1.1}
+  .pd-print-meta{font-size:11px;color:#555;font-family:monospace;margin-top:4px}
+  .pd-print-hdr-right{text-align:right;font-family:monospace;font-size:11px;color:#666;line-height:1.7}
+
+  /* ── stat cards ── */
+  .pd-stats{break-inside:avoid;margin-bottom:16px}
+  .card{
+    break-inside:avoid;box-shadow:none!important;
+    background:#f7f8fc!important;border:1px solid #d0d4e0!important;
+    border-radius:10px!important;
+  }
+  .card-label{color:#555!important}
+  .card-value{color:#000!important}
+  .card-sub{color:#666!important}
+  .card-accent{
+    print-color-adjust:exact;-webkit-print-color-adjust:exact;
+    height:3px!important;
+  }
+
+  /* ── panels ── */
+  .panel{
+    break-inside:avoid;box-shadow:none!important;
+    border:1px solid #d0d4e0!important;border-radius:10px!important;
+    margin-bottom:14px;
+  }
+  .ph{border-bottom:1px solid #e0e3ee!important}
+  .ph-title{color:#000!important}
+  .ph-badge{color:#555!important;border-color:#ccc!important}
+
+  /* ── chart bars ── */
+  #pdChart div[style*="background"]{
+    print-color-adjust:exact;-webkit-print-color-adjust:exact
+  }
+
+  /* ── sessions table ── */
+  .tbl th{color:#555!important;border-bottom:1px solid #ccc!important}
+  .tbl td{color:#111!important;border-bottom:1px solid #eee!important}
+  .tbl tr:last-child td{border-bottom:none!important}
+  .dur-tag{
+    background:#e8eeff!important;border-color:#b0c0f0!important;color:#1a40c0!important;
+    print-color-adjust:exact;-webkit-print-color-adjust:exact
+  }
+  .tx-muted{color:#555!important}
+}
 </style>
 </head>
 <body>
@@ -820,37 +918,97 @@ html[data-theme="light"] .pv-sess-table tr:hover td{background:rgba(15,20,40,.02
   </div>
 </div>
 
+<!-- ═══ PROJECT DETAIL PAGE ══════════════════ -->
+<div class="page" id="page-project">
+
+  <!-- Print-only report header (hidden on screen) -->
+  <div class="pd-print-hdr" id="pdPrintHdr">
+    <div class="pd-print-hdr-left">
+      <div class="pd-print-dot" id="pdPrintDot"></div>
+      <div>
+        <div class="pd-print-title" id="pdPrintTitle"></div>
+        <div class="pd-print-meta" id="pdPrintMeta"></div>
+      </div>
+    </div>
+    <div class="pd-print-hdr-right">
+      <div style="font-weight:600;color:#000;font-size:12px">Dev Code Tracker</div>
+      <div id="pdPrintRange"></div>
+      <div id="pdPrintGenerated"></div>
+    </div>
+  </div>
+
+  <div class="pd-header">
+    <button class="btn btn-ghost btn-sm" onclick="backToProjects()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Projects
+    </button>
+    <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0">
+      <div id="pdDot" style="width:14px;height:14px;border-radius:50%;flex-shrink:0"></div>
+      <div id="pdName" class="pd-title" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div>
+    </div>
+    <button class="btn btn-outline btn-sm" onclick="exportPDF()" title="Export as PDF">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Export PDF
+    </button>
+  </div>
+
+  <!-- Stat cards -->
+  <div class="pd-stats" id="pdStats"></div>
+
+  <!-- Date filter -->
+  <div class="pd-date-bar">
+    <span style="font-family:var(--mono);font-size:11px;color:var(--tx-3);margin-right:4px">FILTER:</span>
+    <button class="fpill"    id="pdPill7d"     onclick="pdSetFilter('7d',this)">Last 7 days</button>
+    <button class="fpill on" id="pdPill30d"    onclick="pdSetFilter('30d',this)">Last 30 days</button>
+    <button class="fpill"    id="pdPillMonth"  onclick="pdSetFilter('month',this)">This month</button>
+    <button class="fpill"    id="pdPillAll"    onclick="pdSetFilter('all',this)">All time</button>
+    <button class="fpill"    id="pdPillCustom" onclick="pdSetFilter('custom',this)">Custom range</button>
+  </div>
+  <div class="pd-custom-dates" id="pdCustomDates">
+    <label style="font-family:var(--mono);font-size:11.5px;color:var(--tx-3)">From</label>
+    <input type="date" id="pdFrom" class="date-input" onchange="pdRefresh()"/>
+    <label style="font-family:var(--mono);font-size:11.5px;color:var(--tx-3)">To</label>
+    <input type="date" id="pdTo" class="date-input" onchange="pdRefresh()"/>
+    <button class="btn btn-primary btn-sm" onclick="pdRefresh()">Apply</button>
+  </div>
+
+  <!-- Daily activity chart -->
+  <div class="panel" style="margin-bottom:16px">
+    <div class="ph">
+      <div class="ph-title">Daily <em>activity</em></div>
+      <div class="ph-badge" id="pdChartBadge">—</div>
+    </div>
+    <div class="pb">
+      <div id="pdChart" style="width:100%;overflow-x:auto"></div>
+    </div>
+  </div>
+
+  <!-- Sessions table -->
+  <div class="panel">
+    <div class="ph">
+      <div class="ph-title">Sessions</div>
+      <div class="ph-badge" id="pdSessBadge">—</div>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="tbl">
+        <thead><tr><th>Date</th><th>Start</th><th>End</th><th>Duration</th></tr></thead>
+        <tbody id="pdSessBody"></tbody>
+      </table>
+    </div>
+    <div class="pager" id="pdPager" style="display:none">
+      <button class="btn btn-ghost btn-sm" id="pdPrev" onclick="pdChangePage(-1)">← Prev</button>
+      <span id="pdPageInfo" style="font-family:var(--mono);font-size:12px;color:var(--tx-3)"></span>
+      <button class="btn btn-ghost btn-sm" id="pdNext" onclick="pdChangePage(1)">Next →</button>
+    </div>
+  </div>
+</div>
+
 <!-- Footer -->
 <div class="footer">
   <span>Dev Code Tracker · <span id="lastRef">—</span></span>
   <span id="apiUrlDisplay"></span>
 </div>
 
-</div>
-
-<!-- Project detail modal -->
-<div class="overlay" id="projViewOverlay" onclick="if(event.target===this)closeProjView()">
-  <div class="modal-lg">
-    <div class="modal-lg-hdr">
-      <div>
-        <div style="display:flex;align-items:center;gap:10px">
-          <div id="pvDot" style="width:12px;height:12px;border-radius:50%;flex-shrink:0"></div>
-          <div id="pvName" style="font-size:18px;font-weight:600;color:var(--tx-0);letter-spacing:-.015em"></div>
-        </div>
-        <div id="pvMeta" style="font-family:var(--mono);font-size:11.5px;color:var(--tx-3);margin-top:5px;padding-left:22px"></div>
-      </div>
-      <button class="btn btn-ghost btn-sm" onclick="closeProjView()">✕ Close</button>
-    </div>
-    <div class="modal-lg-body">
-      <div style="font-family:var(--mono);font-size:10.5px;color:var(--tx-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Daily activity</div>
-      <div id="pvChart" class="pv-chart"></div>
-      <div style="font-family:var(--mono);font-size:10.5px;color:var(--tx-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;margin-top:14px">Sessions</div>
-      <table class="pv-sess-table">
-        <thead><tr><th>Date</th><th>Start</th><th>End</th><th>Duration</th></tr></thead>
-        <tbody id="pvSessBody"></tbody>
-      </table>
-    </div>
-  </div>
 </div>
 
 <!-- Rename modal -->
@@ -1099,6 +1257,7 @@ function renderAll() {
   document.getElementById('todayDate').textContent = p[2]+'-'+p[1]+'-'+p[0];
   document.getElementById('apiUrlDisplay').textContent = cfg.url || '';
   if (document.getElementById('page-projects').classList.contains('active')) renderProjectsPage();
+  if (document.getElementById('page-project').classList.contains('active') && _pdProj) pdRefresh();
 }
 
 function renderCards() {
@@ -1317,55 +1476,199 @@ function renderProjectsPage() {
 
 function ptGo(p) { ptPage = p; renderProjectsPage(); }
 
-// ── Project detail ────────────────────────────────────────────────────────────
+// ── Project detail page ───────────────────────────────────────────────────────
+let _pdProj = null, _pdColor = null, _pdFilt = 'all', _pdSessions = [], _pdPage = 0;
+const PD_PER_PAGE = 25;
+
 async function viewProject(proj, name, color) {
+  _pdProj = proj; _pdColor = color; _pdFilt = '30d'; _pdPage = 0;
+
+  document.getElementById('pdDot').style.background = color;
+  document.getElementById('pdName').textContent = name;
+
+  // Reset date filter UI — default to Last 30 days
+  document.querySelectorAll('.pd-date-bar .fpill').forEach(p => p.classList.remove('on'));
+  document.getElementById('pdPill30d').classList.add('on');
+  document.getElementById('pdCustomDates').style.display = 'none';
+
+  // Navigate — keep Projects tab highlighted
+  showPage('project', document.querySelectorAll('.tab')[1]);
+
+  // Loading state
+  document.getElementById('pdStats').innerHTML = '';
+  document.getElementById('pdChart').innerHTML = '<div class="loader"><div class="spinner"></div></div>';
+  document.getElementById('pdSessBody').innerHTML = '<tr><td colspan="4"><div class="loader"><div class="spinner"></div></div></td></tr>';
+
+  await pdRefresh();
+}
+
+function backToProjects() {
+  showPage('projects', document.querySelectorAll('.tab')[1]);
+}
+
+function pdSetFilter(f, el) {
+  _pdFilt = f;
+  document.querySelectorAll('.pd-date-bar .fpill').forEach(p => p.classList.remove('on'));
+  el.classList.add('on');
+  const customDiv = document.getElementById('pdCustomDates');
+  if (f === 'custom') {
+    customDiv.style.display = 'flex';
+  } else {
+    customDiv.style.display = 'none';
+    pdRefresh();
+  }
+}
+
+function pdDateSub(dateStr, days) {
+  const d = new Date(dateStr + 'T12:00:00');
+  d.setDate(d.getDate() - days);
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function pdGetRange() {
+  const t = tod();
+  if (_pdFilt === '7d')    return {from: pdDateSub(t,6),  to: t};
+  if (_pdFilt === '30d')   return {from: pdDateSub(t,29), to: t};
+  if (_pdFilt === 'month') return {from: t.slice(0,7)+'-01', to: t};
+  if (_pdFilt === 'custom') return {
+    from: document.getElementById('pdFrom').value || null,
+    to:   document.getElementById('pdTo').value   || null,
+  };
+  return {from: null, to: null};
+}
+
+async function pdRefresh() {
+  if (!_pdProj) return;
+  const {from, to} = pdGetRange();
+
+  let extra = '&project=' + encodeURIComponent(_pdProj) + '&limit=1000';
+  if (from) extra += '&from=' + from;
+  if (to)   extra += '&to='   + to;
+
   let sessions = [];
   try {
-    const j = await apiFetch('sessions', '&project=' + encodeURIComponent(proj) + '&limit=200');
+    const j = await apiFetch('sessions', extra);
     sessions = j.data || [];
   } catch(e) {
-    sessions = (D.recent || []).filter(s => s.project === proj);
+    sessions = (D.recent || []).filter(s => s.project === _pdProj);
+    if (from) sessions = sessions.filter(s => s.date >= from);
+    if (to)   sessions = sessions.filter(s => s.date <= to);
   }
+  _pdSessions = sessions;
+  _pdPage = 0;
 
-  document.getElementById('pvDot').style.background = color;
-  document.getElementById('pvName').textContent = name;
-
+  // Stats
   const totalSec = sessions.reduce((a, s) => a + (+s.duration_seconds || 0), 0);
-  document.getElementById('pvMeta').textContent =
-    hm(totalSec) + ' total · ' + sessions.length + ' sessions';
+  const avgSec   = sessions.length ? totalSec / sessions.length : 0;
+  const c = _pdColor;
+  document.getElementById('pdStats').innerHTML =
+    '<div class="card" style="margin:0"><div class="card-accent" style="background:linear-gradient(90deg,'+c+','+c+'88)"></div>'
+      + '<div class="card-label">TOTAL TIME</div>'
+      + '<div class="card-value" style="font-size:30px">'+hf(totalSec)+'<span class="unit">h</span></div>'
+      + '<div class="card-sub">'+hm(totalSec)+' total</div></div>'
+    + '<div class="card" style="margin:0"><div class="card-accent" style="background:linear-gradient(90deg,var(--indigo),var(--blue))"></div>'
+      + '<div class="card-label">SESSIONS</div>'
+      + '<div class="card-value" style="font-size:30px">'+sessions.length+'</div>'
+      + '<div class="card-sub">tracked sessions</div></div>'
+    + '<div class="card" style="margin:0"><div class="card-accent" style="background:linear-gradient(90deg,var(--orange),#ec4899)"></div>'
+      + '<div class="card-label">AVG / SESSION</div>'
+      + '<div class="card-value" style="font-size:30px">'+hf(avgSec)+'<span class="unit">h</span></div>'
+      + '<div class="card-sub">'+hm(avgSec)+' average</div></div>';
 
+  // Daily chart
   const dayMap = {};
   sessions.forEach(s => { dayMap[s.date] = (dayMap[s.date] || 0) + (+s.duration_seconds || 0); });
   const days = Object.keys(dayMap).sort();
-  const mx = Math.max(...Object.values(dayMap), 1);
-  const chartH = 78;
+  const mx = Math.max(...Object.values(dayMap).concat([1]));
+  const chartH = 140;
 
-  document.getElementById('pvChart').innerHTML = days.length
-    ? days.map(d => {
-        const sec = dayMap[d];
-        const pct = Math.max(4, (sec / mx) * 100);
-        const [y, mo, dy] = d.split('-');
-        return '<div class="pv-bar-wrap" title="' + fmtDate(d) + ' · ' + hm(sec) + '">'
-          + '<div class="pv-bar-track" style="height:' + chartH + 'px">'
-            + '<div class="pv-bar-fill" style="height:' + pct + '%;background:' + color + '"></div>'
-          + '</div>'
-          + '<div class="pv-bar-lbl">' + dy + '/' + mo + '</div>'
-          + '</div>';
-      }).join('')
-    : '<div class="empty">No session data.</div>';
+  document.getElementById('pdChartBadge').textContent = hf(totalSec) + 'h across ' + days.length + ' day' + (days.length !== 1 ? 's' : '');
+  document.getElementById('pdChart').innerHTML = days.length
+    ? '<div style="display:flex;align-items:flex-end;gap:3px;width:100%;height:'+(chartH+22)+'px;padding-bottom:20px">'
+        + days.map(d => {
+            const sec = dayMap[d];
+            const pct = Math.max(3, (sec / mx) * 100);
+            const [, mo, dy] = d.split('-');
+            const isToday = d === tod();
+            const barColor = isToday ? 'var(--cyan)' : _pdColor;
+            return '<div style="flex:1;min-width:6px;display:flex;flex-direction:column;align-items:center;cursor:default" title="'+fmtDate(d)+' · '+hm(sec)+'">'
+              + '<div style="width:100%;height:'+chartH+'px;background:rgba(255,255,255,.04);border-radius:3px 3px 0 0;position:relative">'
+                + '<div style="position:absolute;bottom:0;left:0;width:100%;height:'+pct+'%;background:'+barColor+';border-radius:3px 3px 0 0;transition:height .5s ease'+(isToday?';box-shadow:0 -3px 10px rgba(1,87,239,.45)':'')+'"></div>'
+              + '</div>'
+              + '<div style="font-family:var(--mono);font-size:9px;color:var(--tx-3);margin-top:3px;white-space:nowrap;overflow:hidden;max-width:100%;text-align:center">'+dy+'/'+mo+'</div>'
+              + '</div>';
+          }).join('')
+        + '</div>'
+    : '<div class="empty">No sessions in this date range.</div>';
 
-  document.getElementById('pvSessBody').innerHTML = sessions.length
-    ? sessions.map(s => '<tr>'
-        + '<td>' + fmtDate(s.date) + '</td>'
-        + '<td>' + fmtTime(s.start) + '</td>'
-        + '<td>' + fmtTime(s.end) + '</td>'
-        + '<td><span class="dur-tag">' + hm(+s.duration_seconds) + '</span></td>'
+  renderPdPage();
+}
+
+function pdChangePage(dir) {
+  const pages = Math.ceil(_pdSessions.length / PD_PER_PAGE);
+  _pdPage = Math.max(0, Math.min(pages - 1, _pdPage + dir));
+  renderPdPage();
+}
+
+function renderPdPage() {
+  const total   = _pdSessions.length;
+  const pages   = Math.ceil(total / PD_PER_PAGE);
+  const start   = _pdPage * PD_PER_PAGE;
+  const visible = _pdSessions.slice(start, start + PD_PER_PAGE);
+
+  document.getElementById('pdSessBadge').textContent = total + ' session' + (total !== 1 ? 's' : '');
+  document.getElementById('pdSessBody').innerHTML = visible.length
+    ? visible.map(s => '<tr>'
+        + '<td>'+fmtDate(s.date)+'</td>'
+        + '<td class="tx-muted">'+fmtTime(s.start)+'</td>'
+        + '<td class="tx-muted">'+fmtTime(s.end)+'</td>'
+        + '<td><span class="dur-tag">'+hm(+s.duration_seconds)+'</span></td>'
         + '</tr>').join('')
     : '<tr><td colspan="4"><div class="empty">No sessions found.</div></td></tr>';
 
-  document.getElementById('projViewOverlay').classList.add('open');
+  const pager = document.getElementById('pdPager');
+  if (pages > 1) {
+    pager.style.display = 'flex';
+    document.getElementById('pdPageInfo').textContent = 'page ' + (_pdPage + 1) + ' / ' + pages;
+    document.getElementById('pdPrev').disabled = _pdPage === 0;
+    document.getElementById('pdNext').disabled = _pdPage >= pages - 1;
+  } else {
+    pager.style.display = 'none';
+  }
 }
-function closeProjView() { document.getElementById('projViewOverlay').classList.remove('open'); }
+
+function exportPDF() {
+  // Populate print-only header
+  const name = document.getElementById('pdName').textContent;
+  const dotColor = document.getElementById('pdDot').style.background;
+  const {from, to} = pdGetRange();
+  const totalSec = _pdSessions.reduce((a, s) => a + (+s.duration_seconds || 0), 0);
+
+  document.getElementById('pdPrintDot').style.background   = dotColor;
+  document.getElementById('pdPrintTitle').textContent      = name;
+  document.getElementById('pdPrintMeta').textContent       =
+    hf(totalSec) + 'h total · ' + _pdSessions.length + ' session' + (_pdSessions.length !== 1 ? 's' : '');
+  document.getElementById('pdPrintRange').textContent      =
+    from ? ('Period: ' + fmtDate(from) + ' → ' + fmtDate(to || tod())) : 'Period: All time';
+  document.getElementById('pdPrintGenerated').textContent  =
+    'Generated: ' + new Date().toLocaleDateString('en-IN', {timeZone:'Asia/Kolkata', day:'2-digit', month:'short', year:'numeric'});
+
+  // Temporarily show ALL sessions (no pagination) for the PDF
+  document.getElementById('pdSessBody').innerHTML = _pdSessions.length
+    ? _pdSessions.map(s => '<tr>'
+        + '<td>'+fmtDate(s.date)+'</td>'
+        + '<td class="tx-muted">'+fmtTime(s.start)+'</td>'
+        + '<td class="tx-muted">'+fmtTime(s.end)+'</td>'
+        + '<td><span class="dur-tag">'+hm(+s.duration_seconds)+'</span></td>'
+        + '</tr>').join('')
+    : '<tr><td colspan="4"><div class="empty">No sessions found.</div></td></tr>';
+  document.getElementById('pdPager').style.display = 'none';
+
+  window.print();
+
+  // Restore paginated view
+  renderPdPage();
+}
 
 function onColorLive(input) {
   const c   = input.value;
