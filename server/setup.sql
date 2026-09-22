@@ -1,13 +1,8 @@
 -- ════════════════════════════════════════════════════════════
---  Dev Code Tracker — Database Setup
---  Run once:  mysql -u root -p < setup.sql
+--  Dev Code Tracker — Database Setup (hosting-safe, MariaDB-safe)
+--  Import this directly into the database your host created
+--  (e.g. via phpMyAdmin → select the DB → Import tab)
 -- ════════════════════════════════════════════════════════════
-
-CREATE DATABASE IF NOT EXISTS devCodeTracker
-    CHARACTER SET utf8mb4
-    COLLATE utf8mb4_unicode_ci;
-
-USE devCodeTracker;
 
 -- ── Table 1: Every single coding session ─────────────────────
 CREATE TABLE IF NOT EXISTS time_sessions (
@@ -18,11 +13,12 @@ CREATE TABLE IF NOT EXISTS time_sessions (
     start_time       DATETIME      NOT NULL  COMMENT 'Session start (UTC)',
     end_time         DATETIME      NOT NULL  COMMENT 'Session end (UTC)',
     duration_seconds INT           NOT NULL DEFAULT 0,
+    session_date     DATE GENERATED ALWAYS AS (DATE(start_time)) STORED,
     synced_at        TIMESTAMP     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     UNIQUE KEY uq_session (session_id),
     INDEX idx_proj  (project),
     INDEX idx_start (start_time),
-    INDEX idx_date  (DATE(start_time))
+    INDEX idx_date  (session_date)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ── Table 2: Aggregated totals per project per day ───────────
@@ -44,8 +40,3 @@ CREATE TABLE IF NOT EXISTS projects (
     first_seen    TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
     last_seen     TIMESTAMP     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ════════════════════════════════════════════════════════════
---  Done! Tables created automatically by api.php too,
---  but running this file first is cleaner.
--- ════════════════════════════════════════════════════════════
